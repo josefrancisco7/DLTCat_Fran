@@ -1,4 +1,4 @@
-version: "3.8"
+
 services:
   mysql:
     image: mysql:8.0
@@ -6,10 +6,10 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dltcat
-      MYSQL_USER: fran
-      MYSQL_PASSWORD: abc123.
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./mysql:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "${DB_PORT}:3306"
