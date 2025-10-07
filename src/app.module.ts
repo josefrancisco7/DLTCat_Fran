@@ -3,7 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { VerificationModule } from './verification/verification.module';
+import { VerificationModule } from './verifications/verification.module';
+import { UsersModule } from './users/users.module';
+import { CatsModule } from './cats/cats.module';
 import * as Entities from './entities';
 
 
@@ -29,6 +31,8 @@ ConfigModule.forRoot({
       inject: [ConfigService],
     }),
     VerificationModule,
+    UsersModule,
+    CatsModule,
     
    
   ],

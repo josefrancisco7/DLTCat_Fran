@@ -10,7 +10,7 @@ export class LoginDto {
     })
     @IsEmail()
     @IsNotEmpty({ message: 'El correo es obligatorio' })
-    targetEmail: string
+    mail: string
 
 
     @ApiProperty({
