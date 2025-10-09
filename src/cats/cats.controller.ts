@@ -1,20 +1,23 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/verifications/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/verifications/guards/jwt-auth.guard';
 import { CatsService } from './cats.service';
 import { FetchCatsQueryDto } from './dto/fetch-cats-query.dto';
 import { Role } from 'src/enum/role.enum';
 import { DeleteCatDto } from './dto/delete-cat.dto';
+import { RolesGuard } from 'src/verifications/guards/roles.guards';
+import { Roles } from 'src/verifications/decorators/roles.decorator';
 
 @ApiTags("cat")
 @Controller('api/v1/cats')
-//@UseGuards(JwtAuthGuard) //Todas las rutas requieren autentificacion
 export class CatsController {
 
     constructor(private catsService: CatsService) { }
 
-    //GET /api/v1/cats
-    @Get()
+    //GET /api/v1/cats/all
+    @Get("all")
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({
         summary: 'Obtiene todos los gatos de la base de datos',
     })
@@ -32,8 +35,8 @@ export class CatsController {
     //POST /api/v1/cat/fetch
     @Post("fetch")
     @HttpCode(HttpStatus.OK)
-    //@UseGuards(RolesGuard)
-    //@Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
     @ApiBearerAuth()
     @ApiOperation({
         summary: 'SUPER_ADMIN: Obtiene nuevos gatos de The Cat API',
@@ -53,8 +56,8 @@ export class CatsController {
 
     //DELETE /api/v1/cats
     @Delete()
-    //@UseGuards(RolesGuard)
-    //@Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
     @ApiBearerAuth()
     @ApiOperation({
         summary: 'SUPER_ADMIN: Elimina a un gato del sistema'
@@ -70,4 +73,21 @@ export class CatsController {
     async deleteCat(@Query() query: DeleteCatDto) {
         return this.catsService.deleteCat(query.catId)
     }
+
+
+    //GET /api/v1/cats/breeds
+    @Get("breeds")
+    @UseGuards(JwtAuthGuard)
+    @ApiOperation({
+        summary: 'Obtiene todos las razas de la base de datos',
+    })
+    @ApiBearerAuth()
+    @ApiResponse({
+        status: 200,
+        description: 'Lista de razas obtenida exitosamente',
+    })
+    @ApiResponse({ status: 401, description: 'No autenticado' })
+    async getAllBreed() {
+        return this.catsService.getAllBreed();
+    };
 }

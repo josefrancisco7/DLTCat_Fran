@@ -6,6 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { VerificationModule } from './verifications/verification.module';
 import { UsersModule } from './users/users.module';
 import { CatsModule } from './cats/cats.module';
+import { PetsModule } from './pets/pets.module';
+import { SeedersModule } from './seeders/seeders.module';
 import * as Entities from './entities';
 
 
@@ -33,8 +35,9 @@ ConfigModule.forRoot({
     VerificationModule,
     UsersModule,
     CatsModule,
-    
-   
+    PetsModule,
+    SeedersModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

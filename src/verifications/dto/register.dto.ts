@@ -13,7 +13,7 @@ export class RegisterDto {
     targetEmail: string
 
     @ApiProperty({
-        example: 'Francisco Nuñez',
+        example: 'Fran',
         description: 'Nombre completo del usuario',
     })
     @IsString()
@@ -28,7 +28,11 @@ export class RegisterDto {
     @MinLength(6)
     password: string;
 
-    @IsEnum(Language, { message: 'El idioma debe ser "es" o "en"' })
+     @ApiProperty({
+        example: 'es',
+        description: 'Idioma del usuario',
+    })
+    @IsEnum(Language, { message: "El idioma debe ser 'es' o 'en' " })
     @IsOptional()
     language?: Language;
 }

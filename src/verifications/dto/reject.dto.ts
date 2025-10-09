@@ -8,5 +8,6 @@ export class RejectDto {
   })
   @IsEmail({}, { message: 'El correo debe ser un email válido' })
   @IsNotEmpty({ message: 'El correo es obligatorio' })
-  mail: string;
+  targetEmail: string; 
+
 }

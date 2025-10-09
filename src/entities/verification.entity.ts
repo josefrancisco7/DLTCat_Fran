@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Language } from "src/enum/language.enum";
 
 @Entity("verification")
@@ -31,7 +31,7 @@ export class Verification {
     @UpdateDateColumn({ name: 'updatedAt' })
     updatedAt: Date;
 
-    @Column({ type: 'datetime', nullable: true })
+    @DeleteDateColumn({ type: 'datetime', nullable: true })
     deletedAt?: Date;
 
 

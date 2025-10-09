@@ -5,7 +5,7 @@ export class LoginDto {
 
     // Documenta el campo para Swagger: muestra ejemplo y descripción en la UI.
     @ApiProperty({
-        example: 'usuario@mail.com',
+        example: 'jfn@mail.com',
         description: 'Correo electrónico del usuario',
     })
     @IsEmail()

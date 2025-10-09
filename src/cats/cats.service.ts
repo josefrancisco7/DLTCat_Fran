@@ -148,4 +148,12 @@ export class CatsService {
             }
         }
     }
+
+    //Metodo para obtener todas las razas de gatos 
+    async getAllBreed() {
+        const breed = await this.breedRepository.find({
+            order: { id: 'ASC' },
+        });
+        return breed;
+    }
 }

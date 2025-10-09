@@ -4,6 +4,8 @@ import { CatsService } from './cats.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Breed, Cat, Pet } from 'src/entities';
 import { HttpModule } from '@nestjs/axios';
+import { JwtAuthGuard } from 'src/verifications/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/verifications/guards/roles.guards';
 
 @Module({
     imports: [
@@ -12,6 +14,6 @@ import { HttpModule } from '@nestjs/axios';
       HttpModule,
   ],
   controllers: [CatsController],
-  providers: [CatsService]
+  providers: [CatsService,JwtAuthGuard,RolesGuard]
 })
 export class CatsModule {}

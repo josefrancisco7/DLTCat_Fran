@@ -5,7 +5,7 @@ import { IsIn, IsNumber, IsOptional, Max, Min } from "class-validator";
 export class FetchCatsQueryDto {
   @ApiProperty({
     example: 10,
-    description: 'Cantidad de gatos a obtener de la API (1-10)',
+    description: 'Cantidad de gatos a obtener de la API (1-100)',
     required: false,
     default: 10,
   })
@@ -13,7 +13,7 @@ export class FetchCatsQueryDto {
   @Type(() => Number) // Transformamos el string del query param a número
   @IsNumber({}, { message: 'La cantidad debe ser un número' })
   @Min(1, { message: 'La cantidad mínima es 1' })
-  @Max(10, { message: 'La cantidad máxima es 10' })
+  @Max(100, { message: 'La cantidad máxima es 100' })
   limit?: number;
 
   // @ApiProperty({

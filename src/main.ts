@@ -27,6 +27,7 @@ async function bootstrap() {
     .addTag("auth", "Autentificacion de usuarios") //Registro, login, validación
     .addTag("cat", "Modulo para gestionar datos de gatos")//Gatos y razas
     .addTag("users", "Consulta de informacion y borrado de usuarios") //Listado y gestión de usuarios
+    .addTag("pets", "Consulta de adopcion de mascotas") //Listado y gestión de mascotas
     .addBearerAuth()//Soporte para JWT en Swagger
     .build()
 

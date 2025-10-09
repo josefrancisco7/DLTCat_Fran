@@ -8,7 +8,7 @@ export class VerifyDto {
   })
   @IsEmail({}, { message: 'El correo debe ser un email válido' })
   @IsNotEmpty({ message: 'El correo es obligatorio' })
-  mail: string;
+      targetEmail: string; 
 
   @ApiProperty({
     example: 'abc123def456ghi789...',

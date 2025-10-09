@@ -3,10 +3,12 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { VerificationService } from './verification.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Role } from 'src/enum/role.enum';
 import { RejectDto } from './dto/reject.dto';
 import { VerifyDto } from './dto/verify.dto';
+import { Roles } from './decorators/roles.decorator';
+import { RolesGuard } from './guards/roles.guards';
 
 @ApiTags("auth")
 @Controller('api/v1/auth')
@@ -41,11 +43,8 @@ export class VerificationController {
 
 
 
-
-
     // POST api/v1/auth/register
     @Post("register")
-    @HttpCode(HttpStatus.CREATED)
     @ApiOperation({
         summary: 'Registro de usuario nuevo, debe ser verificado antes de usar la plataforma',
         // description: 'Registro de usuario nuevo, debe ser verificado antes de usar la plataforma',
@@ -70,11 +69,12 @@ export class VerificationController {
     }
 
 
+
     // POST /api/v1/auth/reject
     @Post("reject")
     @HttpCode(HttpStatus.OK)
-    //@UseGuards(JwtAuthGuard)
-    //@Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard,RolesGuard)
+    @Roles(Role.ADMIN)
     @ApiBearerAuth()//muestra el candado "Authorize"
     @ApiOperation({ summary: 'SUPER_ADMIN: Rechaza todas las inivitaciones pendientes asociadas a un email' })
     @ApiResponse({
@@ -88,14 +88,15 @@ export class VerificationController {
     @ApiResponse({ status: 401, description: 'No autenticado' })
     @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
     async reject(@Body() RejectDto: RejectDto) {
-        return this.verificationService.reject(RejectDto.mail)
+        return this.verificationService.reject(RejectDto.targetEmail)
     }
 
+    
 
     //GET /api/v1/auth/unverified
     @Get('unverified')
-    //@UseGuards(JwtAuthGuard, RolesGuard)
-    //@Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
     @ApiBearerAuth()
     @ApiOperation({
         summary: 'SUPER_ADMIN: Muestra todos los registros sin aprobar',
@@ -115,8 +116,8 @@ export class VerificationController {
             ],
         },
     })
-    // @ApiResponse({ status: 401, description: 'No autenticado' })
-    // @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
+    @ApiResponse({ status: 401, description: 'No autenticado' })
+    @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
     async getUnverified() {
         return this.verificationService.getUnverifiedUsers();
     }
@@ -125,8 +126,8 @@ export class VerificationController {
     // POST /api/v1/auth/verify
     @Post("verify")
     @HttpCode(HttpStatus.OK)
-    //@UseGuards(JwtAuthGuard)
-    //@Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard,RolesGuard)
+    @Roles(Role.ADMIN)
     @ApiBearerAuth()//muestra el candado "Authorize"
     @ApiOperation({ summary: 'SUPER_ADMIN: Usando mail y verificationToken, verifica un usario para poder usar la plataforma' })
     @ApiResponse({
@@ -137,8 +138,8 @@ export class VerificationController {
         status: 400,
        description: 'Token inválido, email no existe o ya fue aprobado',
     })
-    // @ApiResponse({ status: 401, description: 'No autenticado' })
-    // @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
+    @ApiResponse({ status: 401, description: 'No autenticado' })
+    @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
     async verify(@Body() verifyDto: VerifyDto) {
         return this.verificationService.verify(verifyDto)
     }

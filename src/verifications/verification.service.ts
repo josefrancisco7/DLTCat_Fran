@@ -74,7 +74,6 @@ export class VerificationService {
 
 
     //Metodo login con el que autentificamos un usuario y se retorna un token JWT
-
     async login(loginDto: LoginDto) {
         const { mail, password } = loginDto
 
@@ -116,10 +115,10 @@ export class VerificationService {
     }
 
     // Metodo para rechazar una solicitud de registro
-    async reject(mail: string) {
+    async reject(targetEmail: string) {
 
         const verification = await this.verificationRepository.findOne({
-            where: { targetEmail: mail }
+            where: { targetEmail: targetEmail }
         })
 
         if (!verification) {
@@ -143,10 +142,10 @@ export class VerificationService {
 
     //Metodo verify, para aprobar una solicitud de registro
     async verify(verifyDto: VerifyDto) {
-        const { mail, verificationToken } = verifyDto
+        const { targetEmail, verificationToken } = verifyDto
 
         const verification = await this.verificationRepository.findOne({
-            where: { targetEmail: mail }
+            where: { targetEmail: targetEmail }
         })
 
         if (!verification) {
@@ -164,13 +163,6 @@ export class VerificationService {
         }
 
         //Creamos el usuario en la tabla User
-        // const user = this.userRepository.create({
-        //     mail: verification.targetEmail,
-        //     password: verification.password, // Ya está hasheada
-        //     name: verification.name,
-        //     language: verification.language,
-        //     role: Role.USER, // Usuarios nuevos siempre tienen rol USER
-        // });
         const user = this.userRepository.create();  // sin literal
         user.mail = verification.targetEmail!;
         user.name = verification.name ?? 'Usuario';
