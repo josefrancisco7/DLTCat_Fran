@@ -63,8 +63,7 @@ export class PetsService {
         if (existingPet) {
             throw new BadRequestException('Este gato ya tiene dueño');
         }
-
-
+        
         //Creamos la mascota
         const pet = this.petRepository.create({
             petName,
@@ -93,7 +92,7 @@ export class PetsService {
         if(!pet){
             throw new NotFoundException(`Mascota con ID ${petId} no encontrada`)
         }
-
+        //Comprobacion para que solo se pueda eliminar mascotas propias si no eres admin 
         if(userRole!== Role.ADMIN && pet.ownerId !== userId ){
             throw new ForbiddenException(
                 "No puedes liberar mascota de otros usuarios"

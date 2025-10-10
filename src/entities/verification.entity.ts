@@ -3,10 +3,10 @@ import { Language } from "src/enum/language.enum";
 
 @Entity("verification")
 export class Verification {
+   
     @PrimaryGeneratedColumn()
     id: number;
 
-   
     @Column({ type: 'varchar', length: 255, unique: true  })
     targetEmail: string; 
 

@@ -118,7 +118,7 @@ export class VerificationController {
     })
     @ApiResponse({ status: 401, description: 'No autenticado' })
     @ApiResponse({ status: 403, description: 'No tiene permisos (no es admin)' })
-    async getUnverified() {
+    async getUnverifiedUsers() {
         return this.verificationService.getUnverifiedUsers();
     }
 

@@ -54,7 +54,7 @@ export class UsersController {
 
 
     //DELETE /api/v1/users
-    @Delete()
+    @Delete(":id")
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @ApiOperation({

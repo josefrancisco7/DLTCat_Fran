@@ -41,9 +41,11 @@ export class CatsController {
     @ApiOperation({
         summary: 'SUPER_ADMIN: Obtiene nuevos gatos de The Cat API',
         description:
-            'Solicita gatos a la API externa (The Cat API) y los guarda en la BD. ' +
-            'Automáticamente crea las razas si no existen. ' +
-            'Soporta gatos con múltiples razas.',
+            'Solicita gatos a la API externa (The Cat API) y los guarda en la BD. ' 
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Gatos obtenidos de la API correctamente',
     })
     @ApiResponse({
         status: 400,
@@ -55,7 +57,7 @@ export class CatsController {
 
 
     //DELETE /api/v1/cats
-    @Delete()
+    @Delete(":id")
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ADMIN)
     @ApiBearerAuth()

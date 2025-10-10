@@ -206,7 +206,12 @@ export class VerificationService {
             select: ['id', 'targetEmail',"verificationToken", 'name', 'language', 'createdAt'],
         });
 
-        return verifications;
+        if(verifications.length>0){
+            return verifications;
+        }
+       return {
+        message:"No hay usuarios por verificar"
+       }
     }
 
 
